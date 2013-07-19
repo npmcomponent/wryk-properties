@@ -3,7 +3,9 @@
   "repo": "wryk/properties",
   "description": "",
   "version": "1.0.0",
-  "keywords": [],
+  "keywords": [
+    "properties", "defineProperty", "defineProperties", "descriptor"
+  ],
   "dependencies": {
     "avetisk/defaults": "*"
   },

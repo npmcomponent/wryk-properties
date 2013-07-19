@@ -1,8 +1,11 @@
 {
-	"name": "properties",
-	"version": "1.0.0",
-	"devDependencies": {
-		"should": "~1.2.2",
-		"mocha": "~1.12.0"
-	}
+  "name": "properties",
+  "version": "1.0.0",
+  "keywords": [
+    "properties", "defineProperty", "defineProperties", "descriptor"
+  ],
+  "devDependencies": {
+    "should": "~1.2.2",
+    "mocha": "~1.12.0"
+  }
 }
