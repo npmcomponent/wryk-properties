@@ -1,11 +1,10 @@
 {
-  "name": "properties",
-  "version": "1.0.0",
-  "keywords": [
-    "properties", "defineProperty", "defineProperties", "descriptor"
-  ],
+  "name": "PROJECT",
+  "version": "0.0.0",
   "devDependencies": {
-    "should": "~1.2.2",
-    "mocha": "~1.12.0"
+    "component": "~0.17.0",
+    "LiveScript": "~1.2.0",
+    "mocha": "~1.12.0",
+    "should": "~1.2.2"
   }
 }
