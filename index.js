@@ -1,56 +1,48 @@
 var defaults = require('defaults');
 
 module.exports = function (object) {
-	return new RootWrapper(object);
+	return new Wrapper(object);
 };
 
 
 
-// RootWrapper
-function RootWrapper (object) {
+// Wrapper
+function Wrapper (object, property, parent) {
 	this._object = object;
-	this._default = {};
-};
 
-RootWrapper.prototype.default = function (descriptor) {
-	this._default = descriptor;
-};
-
-RootWrapper.prototype.property = function (property) {
-	return new PropertyWrapper(this._object, property);
-};
-
-
-
-
-// PropertyWrapper
-function PropertyWrapper (object, property, parent) {
-	this._object = object;
-	this._default = {};
 	this._property = property;
 	this._parent = parent;
+
 	this._descriptor = {};
+	this._default = {};
 }
 
-PropertyWrapper.prototype.default = RootWrapper.prototype.default;
+Wrapper.prototype.default = function (descriptor) {
+	this._default = descriptor;
+	return this;
+};
 
-PropertyWrapper.prototype.property = function (property, descriptor) {
-	var child = new PropertyWrapper(this._object[this._property], property, this);
+Wrapper.prototype.property = function (property, descriptor) {
+	var child = new Wrapper(
+		this._property ? this._object[this._property] : this._object,
+		property,
+		this
+	);
 	
 	if (descriptor) {
 		child._descriptor = descriptor;
 		return child.define();
-	} else {
-		return child;
 	}
+
+	return child;
 };
 
-PropertyWrapper.prototype.define = function () {
+Wrapper.prototype.define = function () {
 	var descriptors = [this._descriptor];
 	var wrapper = this;
 
 	while (wrapper = wrapper._parent) {
-		descriptors.push(wrapper._descriptor);
+		descriptors.push(wrapper._default);
 	}
 
 	Object.defineProperty(this._object, this._property, defaults.apply(null, descriptors));
@@ -59,26 +51,32 @@ PropertyWrapper.prototype.define = function () {
 
 
 
-PropertyWrapper.prototype.configurable = function (value) {
+Wrapper.prototype.configurable = function (value) {
 	this._descriptor.configurable = value === undefined ? true : value;
+	return this;
 };
 
-PropertyWrapper.prototype.enumerable = function (value) {
+Wrapper.prototype.enumerable = function (value) {
 	this._descriptor.enumerable = value === undefined ? true : value;
+	return this;
 };
 
-PropertyWrapper.prototype.value = function (value) {
+Wrapper.prototype.value = function (value) {
 	this._descriptor.value = value === undefined ? this._object[this._property] : value;
+	return this;
 };
 
-PropertyWrapper.prototype.writable = function (value) {
+Wrapper.prototype.writable = function (value) {
 	this._descriptor.writable = value === undefined ? true : value;
+	return this;
 };
 
-PropertyWrapper.prototype.getter = function (value) {
+Wrapper.prototype.getter = function (value) {
 	this._descriptor.get = value;
+	return this;
 };
 
-PropertyWrapper.prototype.setter = function (value) {
-	this._descriptor.set = value;	
+Wrapper.prototype.setter = function (value) {
+	this._descriptor.set = value;
+	return this;
 };
