@@ -1,8 +1,8 @@
 # component-skeleton - 0.1.0
 
 # CONFIGURATION
-COMPONENT_NAME = component-name
-STANDALONE_VARIABLE = ComponentName
+COMPONENT_NAME = properties
+STANDALONE_VARIABLE = properties
 
 DEVELOPEMENT_MODE = true
 MOCHA_REPORTER = spec
