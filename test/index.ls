@@ -160,3 +160,18 @@ describe "properties(object)" (...) !->
 
 				object.foo = 'fuuu'
 				object.fuu.should.be.equal 'fuuu'
+
+
+		describe ".define()" (...) !->
+			it "should define property with the current configured descriptor" !->
+				object = {}
+
+				properties object
+					.property 'foo'
+						.configurable!writable!value 'fuu' .define!
+
+				descriptor = Object.getOwnPropertyDescriptor object, 'foo'
+
+				descriptor.configurable.should.be.true
+				descriptor.writable.should.be.true
+				descriptor.value.should.be.equal 'fuu'
