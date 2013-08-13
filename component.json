@@ -2,7 +2,7 @@
   "name": "properties",
   "repo": "wryk/properties",
   "description": "defines new or modifies existing properties on an object with descriptor and configured descriptor property",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "keywords": [
     "properties", "defineProperty", "defineProperties", "descriptor"
   ],
