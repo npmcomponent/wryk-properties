@@ -1,6 +1,7 @@
 # properties
 
-  defines new or modifies existing properties on an object with descriptor and configured descriptor property
+  defines new or modifies properties on an object with  data/accessor descriptor
+
 
 ## Installation
 
@@ -8,64 +9,74 @@
 $ component install wryk/properties
 ```
 
+## Usage
+  
+
+```javasript
+//use properties for es6 Object.is and Object.mixin monkey-patch
+var properties = require('properties');
+
+var is = function (a, b) {
+  //code for es6 Object.is shim
+};
+
+var mixin = function (target, source) {
+  //code for es6 Object.mixin shim
+};
+
+
+properties(Object)
+  //use sugar form for is
+  .property('is')
+    .configurable()
+    .writable()
+    .enumerable(false)
+    .value(is)
+    .define()
+
+  //use basic form for mixin
+  .property('mixin', {
+    configurable: true,
+    writable: true,
+    enumerable: false,
+    value: mixin
+  })
+;
+
+
+
+//or you can use default method
+properties(Object)
+  //default descriptor
+  .default({ writable: true, configurable: true, enumerable: false })
+
+  //sugar form
+  .property('is')
+    .value(is)
+    .define()
+
+  //basic form
+  .property('mixin', {
+    value: mixin
+  })
+;
+```
+
+
 
 ## API
 
-### properties(object, definitions, defaultDescriptor = {}, usedDescriptorProperty = 'value')
-
-  `defaultDescriptor` default value is [javascript default descriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty#Description) as an empty object `{}`.
-
-
-  #### default params
-
-  Example is a simple es6 [Object.is](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FGlobal_Objects%2FObject%2Fis) monkey-patch.
-  Object.is is now a not configurable, not enumerable and not writable property with a shim function as value.
-
-```javascript
-properties(Object, {
-  is: function (a, b) {
-    if (a === b) {
-      if (a === 0) {
-        return 1 / a === 1 / b;
-      } else {
-        return true;
-      }
-    }
-
-    return a !== a && b !== b;
-  }
-});
-
-Object.is(0, -0); //false
-Object.is(NaN, 0/0); //true
-Object.propertyIsEnumerable('is'); //false
-```
-
-  #### with custom `usedDescriptorProperty`
-
-  Example is a part of ArrayLike class with getter function for length property on prototype.
-
-```javascript
-properties(ArrayLike.prototype, {
-  length: function () {
-    return this._length;
-  }
-}, null, 'get');
-
-var a = new ArrayLike();
-a.length; //a._length value, in this case: 0
-```
-```javascript
-properties(ArrayLike.prototype, {
-  length: function () {
-    return this._length;
-  }
-}, null, 'get');
-
-var a = new ArrayLike();
-a.length; //a._length value, in this case: 0
-```
-
+### properties(object)
+### properties(object).default(descriptor)
+### properties(object).property(property)
+### properties(object).property(property).configurable([value = true])
+### properties(object).property(property).writable([value = true])
+### properties(object).property(property).enumerable([value = true])
+### properties(object).property(property).getter(value)
+### properties(object).property(property).setter(value)
+### properties(object).property(property).value(value)
+### properties(object).property(property).define()
+ 
 
 ## Running tests
   First, make sure dependencies are installed:
@@ -73,12 +84,7 @@ a.length; //a._length value, in this case: 0
 $ npm install
 ```
 
-  and build __properties__ component as standalone file:
-```batch
-$ make build
-```
-
-  finally, run test:
+  and run test:
 ```batch
 $ make test
 ```
