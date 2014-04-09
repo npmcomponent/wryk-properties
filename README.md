@@ -12,7 +12,7 @@ $ component install wryk/properties
 ## Usage
   
 
-```javasript
+```js
 //use properties for es6 Object.is and Object.mixin monkey-patch
 var properties = require('properties');
 
