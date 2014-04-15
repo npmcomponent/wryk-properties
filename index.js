@@ -1,4 +1,4 @@
-var defaults = require('defaults');
+var defaults = require('avetisk-defaults');
 
 module.exports = function (object) {
 	return new Wrapper(object);

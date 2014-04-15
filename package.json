@@ -1,10 +1,16 @@
 {
-  "name": "properties",
+  "name": "wryk-properties",
+  "description": "defines new or modifies properties on an object with data/accessor descriptor",
   "version": "2.0.0",
-  "devDependencies": {
-    "component": "~0.17.0",
-    "LiveScript": "~1.2.0",
-    "mocha": "~1.12.0",
-    "should": "~1.2.2"
-  }
+  "keywords": [
+    "properties",
+    "defineProperty",
+    "defineProperties",
+    "descriptor"
+  ],
+  "main": "index.js",
+  "dependencies": {
+    "avetisk-defaults": "git://github.com/npmcomponent/avetisk-defaults.git"
+  },
+  "license": "MIT"
 }
